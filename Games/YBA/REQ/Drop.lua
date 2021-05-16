@@ -1,5 +1,7 @@
 local function Drop(Name, Time, DA)
-
+    
+    local Success, Error = pcall(function()
+            
     local Amount = 0
     local DropAmount = DA
 
@@ -37,6 +39,12 @@ local function Drop(Name, Time, DA)
         end
 
     end
+            
+    end)
+    
+   if not Success then
+      warn(Error)
+   end
 end
 
 Drop(_G.CurrentDrop, 1.2,  _G.DropAmount)
