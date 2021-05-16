@@ -25,6 +25,8 @@ local Arrow = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/G
 local RokaWarn = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/RokaW.lua")
 local WorthTwo = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/WorthTwo.lua")
 local AutoDrop = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Drop.lua")
+local AutoSell = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Sell.lua")
+
 
 --[[ JSON REQUESTS ]]--
 
@@ -94,7 +96,7 @@ local function ChangeProperty(Object, Prop, NewPropValue)
    Object["Prop"] = (NewPropValue)
 end
 
---[[ SETUP UI ]]--
+--[[ AUTO DROP ]]--
 
 AutoDropWindow:Toggle("ENABLED", true, function(Bool)
     _G.DropEnabled = Bool
@@ -110,13 +112,10 @@ AutoDropWindow:Button("DROP", function()
     GET(AutoDrop)
 end)
 
---[[AutoDropWindow:Button("RESET DROPPING", function()
-    _G.CurrentDrop = ("")
-end)]]
-
 local Dropping = AutoDropWindow:Label("Currently Dropping: N/A")
 
-AutoDropWindow:Label("Items: ")
+AutoDropWindow:Label("")
+AutoDropWindow:Label("Items:")
 
 for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
    AutoDropWindow:Button(Value, function()
@@ -124,5 +123,35 @@ for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
        _G.CurrentDrop = Value
        
        Dropping.Text = ("Currently Dropping: " .. Value)
+   end)
+end
+
+--[[ AUTO SELL ]]--
+
+AutoSellWindow:Toggle("ENABLED", true, function(Bool)
+    _G.SellEnabled = Bool
+end)
+
+AutoSellWindow:Textbox("AMOUNT", false, function(Input)
+    if not tonumber((Input)) then return end
+    
+    _G.SellAmount = tonumber((Input))
+end)
+
+AutoSellWindow:Button("SELL", function()
+    GET(AutoSell)
+end)
+
+local Selling = AutoSellWindow:Label("Currently Selling: N/A")
+
+AutoSellWindow:Label("")
+AutoSellWindow:Label("Items:")
+
+for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
+   AutoSellWindow:Button(Value, function()
+       
+       _G.CurrentSell = Value
+       
+       Selling.Text = ("Currently Selling: " .. Value)
    end)
 end
