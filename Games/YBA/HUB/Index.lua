@@ -13,6 +13,7 @@ local AutoDropWindow = VapeWIN:Tab("AUTO DROP")
 local AutoSellWindow = VapeWIN:Tab("AUTO SELL")
 local StandFarmWindow = VapeWIN:Tab("STAND FARM")
 local ItemCounterWindow = VapeWIN:Tab("ITEM COUNTER")
+local SBRWindow = VapeWIN:Tab("SBR")
 local MiscWindow = VapeWIN:Tab("MISC")
 
 --[[ HTTP REQUESTS ]]--
@@ -55,6 +56,9 @@ _G.StandFarm = (false)
 _G.StandFarmS = (true)
 _G.StandLogging = (false)
 _G.WebHookLogging = (false)
+
+_G.HORSESPEED = (false)
+_G.HORSESPEEDVALUE = (0.2)
 
 _G.AFK = (true)
 
@@ -331,6 +335,41 @@ end
 
 ItemCounterWindow:Label("Coming Soon...")
 
+--[[ SBR ]]--
+
+SBRWindow:Label("HORSE:")
+
+SBRWindow:Button("BRING", function()
+    local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
+    local Human = PlayerService.LocalPlayer.Character.HumanoidRootPart
+    
+    Horse:WaitForChild("HumanoidRootPart").CFrame = Human.CFrame
+end)
+
+SBRWindow:Toggle("SPEED", _G.HORSESPEED, function(Bool)
+    _G.HORSESPEED = Bool
+end)
+
+SBRWindow:Dropdown("SPEED TYPE", {"OBVIOUS", "FAST", "NOTICEABLE", "UN-NOTICEABLE"}, function(Option)
+    if Option == ("OBVIOUS") then
+       _G.HORSESPEEDVALUE = (1)
+       
+       SpeedType.Text = Option
+    elseif Option == ("FAST") then
+       _G.HORSESPEEDVALUE = (0.6)    
+       
+       SpeedType.Text = Optiond
+    elseif Option == ("NOTICEABLE") then
+       _G.HORSESPEEDVALUE = (0.4)    
+       
+       SpeedType.Text = Option
+    elseif Option == ("UN-NOTICEABLE") then
+       _G.HORSESPEEDVALUE = (0.2)    
+       
+       SpeedType.Text = Option
+    end
+end)
+
 --[[ MISC ]]--
 
 MiscWindow:Toggle("STAND LOGGING", false, function(Bool)
@@ -352,8 +391,15 @@ PlayerService.LocalPlayer.CharacterAdded:Connect(function(Character)
     end
 end)
 
---[[RunService.RenderStepped:Connect(function(...)
-    if _G.AutoCount then
-       -- 
+if game.PlaceId == (4643697430) then
+game:GetService("RunService").RenderStepped:Connect(function(...)
+    if _G.HORSESPEED then
+       local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
+       
+       if Horse:FindFirstChild("HumanoidRootPart") then
+          
+          Horse:FindFirstChild("HumanoidRootPart").CFrame = Horse:FindFirstChild("HumanoidRootPart").CFrame + Horse:FindFirstChild("HumanoidRootPart").CFrame.LookVector * _G.HORSESPEEDVALUE
+       end
     end
-end)]]
+end)
+end
