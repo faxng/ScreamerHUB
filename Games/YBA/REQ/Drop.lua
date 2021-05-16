@@ -1,3 +1,5 @@
+local DropEnabled = _G.DropEnabled
+
 local function Drop(Name, Time, DA)
     
     local Success, Error = pcall(function()
