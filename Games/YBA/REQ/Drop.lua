@@ -1,5 +1,3 @@
-local DropEnabled = _G.DropEnabled
-
 local function Drop(Name, Time, DA)
     
     local Success, Error = pcall(function()
@@ -13,7 +11,7 @@ local function Drop(Name, Time, DA)
                               game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
             if Obj.Name == (Name) then
                 
-                if not DropEnabled then return end
+                if not _G.DropEnabled then return end
                 
                 game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer(
                     "DropItem", Obj)
@@ -30,7 +28,7 @@ local function Drop(Name, Time, DA)
             if Obj.Name == (Name) then
 
                 if Amount == tonumber(DropAmount) then return end
-                if not DropEnabled then return end
+                if not _G.DropEnabled then return end
 
                 Amount = Amount + 1
 
