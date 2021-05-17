@@ -33,8 +33,8 @@
        local Humanoid = Character:WaitForChild("Humanoid")
  
        Humanoid.Seated:Connect(HorseCheck)
-       Humanoid:GetPropertyChangedSignal(NoHorseCheck)
+       Humanoid:GetPropertyChangedSignal("SeatPart"):Connect(NoHorseCheck)
    end)
 
    PlayerService.LocalPlayer.Character["Humanoid"].Seated:Connect(HorseCheck)  
-   PlayerService.LocalPlayer.Character["Humanoid"]:GetPropertyChangedSignal(NoHorseCheck)
+   PlayerService.LocalPlayer.Character["Humanoid"]:GetPropertyChangedSignal("SeatPart"):Connect(NoHorseCheck)
