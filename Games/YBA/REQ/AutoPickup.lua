@@ -90,7 +90,7 @@ local function CheckItem(Model)
                         PureInfo.Max = 20
                      end
 
-                     if not CheckAmount(PureInfo.ItemName, PureInfo.Max) then
+                     if CheckAmount(PureInfo.ItemName, PureInfo.Max) then
                         return true
                      end
                   end
@@ -109,7 +109,7 @@ local function CheckItem(Model)
                         LuckyInfo.Max = 20
                      end
 
-                     if not CheckAmount(LuckyInfo.ItemName, LuckyInfo.Max) then
+                     if CheckAmount(LuckyInfo.ItemName, LuckyInfo.Max) then
                         return true
                      end
 
@@ -118,7 +118,7 @@ local function CheckItem(Model)
      
                print("Item;", AutoPickUPM[i].ItemName)
 
-               if not CheckAmount(AutoPickUPM[i].ItemName, AutoPickUPM[i].Max) then
+               if CheckAmount(AutoPickUPM[i].ItemName, AutoPickUPM[i].Max) then
                   return true
                else
                   return false
