@@ -511,7 +511,7 @@ end
 UI LOADING
 ]]
 
-local Flux = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/fluxlib.txt"))()
+local Flux = loadstring(game:HttpGet("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/HUB/Legacy/Flux.lua"))()
 
 --[[
 UI WINDOWS
