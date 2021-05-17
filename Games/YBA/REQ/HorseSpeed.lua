@@ -11,7 +11,7 @@
          end
       end
 
-      if not Seated and SeatObj == nil then
+      if not Seated then
          _G.SeatedH = false
       end
    end
