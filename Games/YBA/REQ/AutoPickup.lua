@@ -83,6 +83,8 @@ local function CheckItem(Model)
                       ItemName = ("Pure Rokakaka"),
                       Max = 10
                      }
+       
+                     print("Rokakaka == (Pure Rokakaka)")
 
                      if MarketPlaceService:UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 14597778) then
                         PureInfo.Max = 20
@@ -100,6 +102,8 @@ local function CheckItem(Model)
                       ItemName = ("Lucky Arrow"),
                       Max = 10
                      }
+       
+                     print("Mysterious Arrow == (Lucky Arrow)")
 
                      if MarketPlaceService:UserOwnsGamePassAsync(game:GetService("Players").LocalPlayer.UserId, 14597778) then
                         LuckyInfo.Max = 20
@@ -111,6 +115,8 @@ local function CheckItem(Model)
 
                   end
                end
+     
+               print("Item;", AutoPickUPM[i].ItemName)
 
                if not CheckAmount(AutoPickUPM[i].ItemName, AutoPickUPM[i].Max) then
                   return true
@@ -141,7 +147,7 @@ local function ItemCollect(Child)
             local Attempt = 0
             local TargetInfo = CheckItem(Child)
             
-            if not TargetInfo then return end
+            if not TargetInfo then print("Disregarding item, max of item!") return end
         
             repeat
                  wait()
