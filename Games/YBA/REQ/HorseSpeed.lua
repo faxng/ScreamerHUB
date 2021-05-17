@@ -1,3 +1,5 @@
+local PlayerService = game:GetService("Players")   
+
    local function HorseCheck(Seated, SeatObj)
        
       if Seated then
