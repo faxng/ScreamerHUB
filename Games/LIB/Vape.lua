@@ -485,13 +485,13 @@ function lib:Window(text, preset, closebind)
 
             Tab.CanvasSize = UDim2.new(0, 0, 0, TabLayout.AbsoluteContentSize.Y)
         end
-		function tabcontent:Line()
+		function tabcontent:Line(Color)
 			local Line = Instance.new("TextButton")
 			local LineCorner = Instance.new("UICorner")
 
 			Line.Name = "Line"
 			Line.Parent = Tab
-			Line.BackgroundColor3 = Color3.fromRGB(64, 68, 75)
+			Line.BackgroundColor3 = Color
 			Line.ClipsDescendants = true
 			Line.Position = UDim2.new(0, 0, 0.70091325, 0)
 			Line.Size = UDim2.new(0, 457, 0, 4)
