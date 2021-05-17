@@ -60,6 +60,9 @@ _G.WebHookLogging = (false)
 _G.HORSESPEED = (false)
 _G.HORSESPEEDVALUE = (0.2)
 
+_G.ANTIPOISON = false
+_G.ANTIWEATHER = false
+
 _G.AFK = (true)
 
 --[[ MAIN FUNCTIONS ]]--
@@ -337,7 +340,7 @@ ItemCounterWindow:Label("Coming Soon...")
 
 --[[ SBR ]]--
 
-SBRWindow:Label("HORSE:")
+SBRWindow:Label("HORSE FEATURES:")
 
 SBRWindow:Button("BRING", function()
     local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
@@ -370,6 +373,20 @@ SBRWindow:Dropdown("SPEED TYPE", {"OBVIOUS", "FAST", "NOTICEABLE", "UN-NOTICEABL
     end
 end)
 
+SBRWindow:Label("CLIENT FEATURES:")
+
+SBRWindow:Toggle("ANTI-POISON", _G.ANTIPOISON, function(Bool)
+    _G.ANTIPOISON = Bool
+end)
+
+SBRWindow:Toggle("ANTI-WEATHER", _G.ANTIWEATHER, function(Bool)
+    _G.ANTIWEATHER = Bool
+    
+    if Bool then
+       game:GetService()
+    end
+end)
+
 --[[ MISC ]]--
 
 MiscWindow:Toggle("STAND LOGGING", false, function(Bool)
@@ -392,14 +409,33 @@ PlayerService.LocalPlayer.CharacterAdded:Connect(function(Character)
 end)
 
 if game.PlaceId == (4643697430) then
-game:GetService("RunService").RenderStepped:Connect(function(...)
-    if _G.HORSESPEED then
-       local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
+    
+   game:GetService("RunService").RenderStepped:Connect(function(...)
+       if _G.HORSESPEED then
+          local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
        
-       if Horse:FindFirstChild("HumanoidRootPart") then
+          if Horse:FindFirstChild("HumanoidRootPart") then
           
-          Horse:FindFirstChild("HumanoidRootPart").CFrame = Horse:FindFirstChild("HumanoidRootPart").CFrame + Horse:FindFirstChild("HumanoidRootPart").CFrame.LookVector * _G.HORSESPEEDVALUE
+             Horse:FindFirstChild("HumanoidRootPart").CFrame = Horse:FindFirstChild("HumanoidRootPart").CFrame + Horse:FindFirstChild("HumanoidRootPart").CFrame.LookVector * _G.HORSESPEEDVALUE
+          end
        end
-    end
-end)
+   end)
+   
+   local Hooks;
+
+   Hooks = hookfunction(getrawmetatable(game).__namecall, function(self, ...)
+       local Prod = { ... }
+       
+       if not self.Name == ("RemoteEvent") then return Hooks(self, ...) end
+       
+       if Prod[1] == ("Poison") and _G.ANTIPOISON then
+          return
+       elseif Prod[1] == ("UpdateWeatherTemperature") and _G.ANTIWEATHER then
+          if Prod[2] == ("None") then return Hooks(self, ...) end
+          return
+       end
+       
+       return Hooks(self, ...)
+   end)
+   
 end
