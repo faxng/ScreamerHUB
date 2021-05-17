@@ -1,5 +1,3 @@
-local SellEnabled = _G.SellEnabled
-
 local function Sell(Name, Wait, AS)
 
     local Success, Error = pcall(function()
@@ -18,7 +16,7 @@ local function Sell(Name, Wait, AS)
                               game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
             if Obj.Name == (Name) then
                 
-                if not SellEnabled then return end
+                if not _G.SellEnabled then return end
                 
                 Obj.Parent = game:GetService("Players").LocalPlayer.Character
 
@@ -38,7 +36,7 @@ local function Sell(Name, Wait, AS)
                 
 
                 if Amount == tonumber(SellAmount) then return end
-                if not SellEnabled then return end
+                if not _G.SellEnabled then return end
 
                 Amount = Amount + 1
 
