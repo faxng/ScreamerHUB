@@ -6,12 +6,8 @@
       if Seated then
          if SeatObj.Parent.Name == (game:GetService("Players").LocalPlayer.Name .. "'s Horse") then
             _G.SeatedH = true
-            
-            warn("TRUE!")
          end
-      end
-
-      if not Seated then
+      else
          _G.SeatedH = false
       end
    end
