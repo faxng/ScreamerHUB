@@ -18,16 +18,25 @@ local MiscWindow = VapeWIN:Tab("MISC")
 
 --[[ HTTP REQUESTS ]]--
 
-local Roka = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Roka.lua")
-local Arrow = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Arrow.lua")
-local RokaWarn = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/RokaW.lua")
-local WorthTwo = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/WorthTwo.lua")
-local AutoDrop = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Drop.lua")
-local AutoSell = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Sell.lua")
+local Base = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/")
+
+local Roka = (Base .. ("Roka.lua"))
+local Arrow = (Base .. ("Arrow.lua"))
+local RokaWarn = (Base .. ("RokaW.lua"))
+local WorthTwo = (Base .. ("WorthTwo.lua"))
+local AutoDrop = (Base .. ("Drop.lua"))
+local AutoSell = (Base .. ("Sell.lua"))
+local HorseSpeed = (Base .. ("HorseSpeed.lua"))
+local AutoKick = (Base .. ("AutoKick.lua"))
+local AutoPickup = (Base .. ("AutoPickup.lua"))
+local AutoCa = (Base .. ("Auto.lua"))
+local AntiAFK = (Base .. ("AFK.lua"))
+local Hooks = (Base .. ("Hooking.lua"))
 
 --[[ JSON REQUESTS ]]--
 
-local ITEMS = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Item.JSON")
+local ITEMS = (Base .. ("Item.JSON"))
+
 --[[ SERVICES ]]--
 
 local HttpService = game:GetService("HttpService")
@@ -51,14 +60,16 @@ _G.CurrentSell = ("")
 _G.AutoPickupEnabled = (false)
 _G.AutoCount = (false)
 _G.AutoArcade = (false)
+_G.AutoKick = (true)
 
 _G.StandFarm = (false)
-_G.StandFarmS = (true)
+_G.StandFarmS = (false)
 _G.StandLogging = (false)
 _G.WebHookLogging = (false)
 
 _G.HORSESPEED = (false)
 _G.HORSESPEEDVALUE = (0.2)
+_G.SeatedH = (false)
 
 _G.ANTIPOISON = false
 _G.ANTIWEATHER = false
@@ -270,8 +281,11 @@ end)
 
 local Dropping = AutoDropWindow:Label("Currently Dropping: N/A")
 
-AutoDropWindow:Label("")
-AutoDropWindow:Label("Items:")
+Dropping.TextColor3 = Color3.fromRGB(255, 0, 0)
+
+AutoDropWindow:Line(Color3.fromRGB(0, 255, 0))
+AutoDropWindow:Label("ITEMS:").TextColor3 = Color3.fromRGB(0, 255, 0)
+AutoDropWindow:Line(Color3.fromRGB(0, 255, 0))
 
 for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
    AutoDropWindow:Button(Value, function()
@@ -300,8 +314,11 @@ end)
 
 local Selling = AutoSellWindow:Label("Currently Selling: N/A")
 
-AutoSellWindow:Label("")
-AutoSellWindow:Label("Items:")
+Selling.TextColor3 = Color3.fromRGB(255, 0, 0)
+
+AutoSellWindow:Line(Color3.fromRGB(0, 255, 0))
+AutoSellWindow:Label("ITEMS:").TextColor3 = Color3.fromRGB(0, 255, 0)
+AutoSellWindow:Line(Color3.fromRGB(0, 255, 0))
 
 for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
    AutoSellWindow:Button(Value, function()
@@ -322,11 +339,13 @@ StandFarmWindow:Toggle("ENABLED", false, function(Bool)
     end
 end)
 
-StandFarmWindow:Toggle("KEEP SPECIFIC SHINIES", true, function(Bool)
+StandFarmWindow:Toggle("KEEP SPECIFIC SHINIES", _G.StandFarmS, function(Bool)
     _G.StandFarmS = Bool
 end)
 
-StandFarmWindow:Label("STANDS:")
+StandFarmWindow:Line(Color3.fromRGB(0, 150, 0))
+StandFarmWindow:Label("STANDS:").TextColor3 = Color3.fromRGB(0, 255, 0)
+StandFarmWindow:Line(Color3.fromRGB(0, 150, 0))
 
 for i = 1,#STANDS do
    StandFarmWindow:Toggle(STANDS[i].Stand, false, function(Bool)
@@ -340,7 +359,9 @@ ItemCounterWindow:Label("Coming Soon...")
 
 --[[ SBR ]]--
 
-SBRWindow:Label("HORSE FEATURES:")
+SBRWindow:Line(Color3.fromRGB(0, 150, 0))
+SBRWindow:Label("HORSE FEATURES").TextColor3 = Color3.fromRGB(0, 255, 0)
+SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 
 SBRWindow:Button("BRING", function()
     local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
@@ -353,27 +374,13 @@ SBRWindow:Toggle("SPEED", _G.HORSESPEED, function(Bool)
     _G.HORSESPEED = Bool
 end)
 
-SBRWindow:Dropdown("SPEED TYPE", {"OBVIOUS", "FAST", "NOTICEABLE", "UN-NOTICEABLE"}, function(Option)
-    if Option == ("OBVIOUS") then
-       _G.HORSESPEEDVALUE = (1)
-       
-       SpeedType.Text = Option
-    elseif Option == ("FAST") then
-       _G.HORSESPEEDVALUE = (0.6)    
-       
-       SpeedType.Text = Optiond
-    elseif Option == ("NOTICEABLE") then
-       _G.HORSESPEEDVALUE = (0.4)    
-       
-       SpeedType.Text = Option
-    elseif Option == ("UN-NOTICEABLE") then
-       _G.HORSESPEEDVALUE = (0.2)    
-       
-       SpeedType.Text = Option
-    end
+SBRWindow:Slider("SPEED AMOUNT", 1, 10, 2, function(Slide)
+    _G.HORSESPEEDVALUE = (Slide / 10)
 end)
 
-SBRWindow:Label("CLIENT FEATURES:")
+SBRWindow:Line(Color3.fromRGB(0, 150, 0))
+SBRWindow:Label("CLIENT FEATURES").TextColor3 = Color3.fromRGB(0, 255, 0)
+SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 
 SBRWindow:Toggle("ANTI-POISON", _G.ANTIPOISON, function(Bool)
     _G.ANTIPOISON = Bool
@@ -387,7 +394,19 @@ SBRWindow:Toggle("ANTI-WEATHER", _G.ANTIWEATHER, function(Bool)
     end
 end)
 
+SBRWindow:Line(Color3.fromRGB(0, 150, 0))
+SBRWindow:Label("PVP FEATURES").TextColor3 = Color3.fromRGB(0, 255, 0)
+SBRWindow:Line(Color3.fromRGB(0, 150, 0))
+
+SBRWindow:Button("Coming Soon...", function()
+    
+end)
+
 --[[ MISC ]]--
+
+MiscWindow:Line(Color3.fromRGB(0,255,0))
+MiscWindow:Label("AUTOFARM SETTINGS:").TextColor3 = Color3.fromRGB(0,255,0)
+MiscWindow:Line(Color3.fromRGB(0,255,0))
 
 MiscWindow:Toggle("STAND LOGGING", false, function(Bool)
     _G.StandLogging = Bool
@@ -398,7 +417,43 @@ MiscWindow:Button("SAVE LOG", function()
     VapeMOD:Notification("Stand Logging", "Successfully saved your stand LOG to the workspace folder.", "OK!")
 end)
 
---[[ EXTRA / ADDONS ]]--
+MiscWindow:Line(Color3.fromRGB(0,255,0))
+MiscWindow:Label("AUTOMATIC SETTINGS:").TextColor3 = Color3.fromRGB(0,255,0)
+MiscWindow:Line(Color3.fromRGB(0,255,0))
+
+MiscWindow:Toggle("AUTO-PICKUP", false, function(Bool)
+    _G.AutoPickupEnabled = Bool
+end)
+
+MiscWindow:Toggle("AUTO-COUNT", false, function(Bool)
+    _G.AutoCount = Bool
+end)
+
+MiscWindow:Toggle("AUTO-ARCADE", false, function(Bool)
+    _G.AutoArcade = Bool
+end)
+
+MiscWindow:Toggle("AUTO-KICK", true, function(Bool)
+    _G.AutoKick = Bool
+end)
+
+MiscWindow:Toggle("ANTI-AFK", false, function(Bool)
+    _G.AFK = Bool
+end)
+
+--[[ AUTO SETUP / SBR SETUP ]]--
+
+GET(AutoPickup)
+GET(AutoKick)
+GET(AntiAFK)
+GET(AutoCA)
+
+if game.PlaceId == (4643697430) then
+   GET(HorseSpeed)
+   GET(Hooks)
+end
+
+--[[ STAND FARM ]]--
 
 PlayerService.LocalPlayer.CharacterAdded:Connect(function(Character)
     wait(.1)
@@ -407,37 +462,3 @@ PlayerService.LocalPlayer.CharacterAdded:Connect(function(Character)
        StandFarm()
     end
 end)
-
-if game.PlaceId == (4643697430) then
-    
-   game:GetService("RunService").RenderStepped:Connect(function(...)
-       if _G.HORSESPEED then
-          local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
-       
-          if Horse:FindFirstChild("HumanoidRootPart") then
-          
-             Horse:FindFirstChild("HumanoidRootPart").CFrame = Horse:FindFirstChild("HumanoidRootPart").CFrame + Horse:FindFirstChild("HumanoidRootPart").CFrame.LookVector * _G.HORSESPEEDVALUE
-          end
-       end
-   end)
-   
-   local Hooks;
-
-   Hooks = hookfunction(getrawmetatable(game).__namecall, function(self, ...)
-       local Prod = { ... }
-       
-       if self.Name == ("RemoteEvent") then 
-       
-          if Prod[1] == ("Poison") and _G.ANTIPOISON then
-             return
-          elseif Prod[1] == ("UpdateWeatherTemperature") and _G.ANTIWEATHER then
-             if Prod[2] == ("None") then return Hooks(self, ...) end
-             return
-          end
-            
-       end
-       
-       return Hooks(self, ...)
-   end)
-   
-end
