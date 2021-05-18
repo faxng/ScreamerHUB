@@ -38,3 +38,14 @@
 
    PlayerService.LocalPlayer.Character["Humanoid"].Seated:Connect(HorseCheck)  
    PlayerService.LocalPlayer.Character["Humanoid"]:GetPropertyChangedSignal("SeatPart"):Connect(NoHorseCheck)
+
+   game:GetService("RunService").RenderStepped:Connect(function(...)
+       if _G.HORSESPEED then
+          local Horse = workspace:WaitForChild((game:GetService("Players").LocalPlayer.Name .. "'s Horse"))
+       
+          if Horse:FindFirstChild("HumanoidRootPart") and _G.SeatedH then
+              
+             Horse:FindFirstChild("HumanoidRootPart").CFrame = Horse:FindFirstChild("HumanoidRootPart").CFrame + Horse:FindFirstChild("HumanoidRootPart").CFrame.LookVector * _G.HORSESPEEDVALUE
+          end
+       end
+   end)
