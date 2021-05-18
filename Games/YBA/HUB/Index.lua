@@ -29,7 +29,7 @@ local AutoSell = (Base .. ("Sell.lua"))
 local HorseSpeed = (Base .. ("HorseSpeed.lua"))
 local AutoKick = (Base .. ("AutoKick.lua"))
 local AutoPickup = (Base .. ("AutoPickup.lua"))
-local AutoCa = (Base .. ("Auto.lua"))
+local AutoCA = (Base .. ("Auto.lua"))
 local AntiAFK = (Base .. ("AFK.lua"))
 local Hooks = (Base .. ("Hooking.lua"))
 
