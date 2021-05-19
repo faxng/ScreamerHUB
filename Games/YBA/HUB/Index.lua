@@ -32,6 +32,9 @@ local AutoPickup = (Base .. ("AutoPickup.lua"))
 local AutoCA = (Base .. ("Auto.lua"))
 local AntiAFK = (Base .. ("AFK.lua"))
 local Hooks = (Base .. ("Hooking.lua"))
+local GodMode = (Base .. ("GodMode.lua"))
+local Extension = (Base .. ("Ext.lua"))
+local Directory = (Base .. ("DIR.lua"))
 
 --[[ JSON REQUESTS ]]--
 
@@ -398,8 +401,8 @@ SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 SBRWindow:Label("PVP FEATURES").TextColor3 = Color3.fromRGB(0, 255, 0)
 SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 
-SBRWindow:Button("Coming Soon...", function()
-    
+SBRWindow:Button("GOD MODE", function()
+    GET(Directory)
 end)
 
 --[[ MISC ]]--
@@ -447,6 +450,9 @@ GET(AutoPickup)
 GET(AutoKick)
 GET(AntiAFK)
 GET(AutoCA)
+GET(Extension)
+wait()
+GET(GodMode)
 
 if game.PlaceId == (4643697430) then
    GET(HorseSpeed)
