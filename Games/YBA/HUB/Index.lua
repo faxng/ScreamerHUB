@@ -403,6 +403,7 @@ SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 
 SBRWindow:Button("GOD MODE", function()
     GET(Directory)
+    game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Screamer HUB", Text = "GODMODE ENABLED! Reset to disable.", Duration = 7, })
 end)
 
 --[[ MISC ]]--
