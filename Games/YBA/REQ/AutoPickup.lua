@@ -97,7 +97,9 @@ local function CheckItem(Model)
                end
                
                if AutoPickUPM[i].ItemName == ("Mysterious Arrow") then
-                  if Model:FindFirstChildOfClass("MeshPart"):FindFirstChild("Attachment"):FindFirstChild("ParticleEmitter2") then
+                  if Model:FindFirstChildOfClass("MeshPart") then
+                     if Model:FindFirstChildOfClass("MeshPart"):FindFirstChild("Attachment") then
+                       if Model:FindFirstChildOfClass("MeshPart"):FindFirstChild("Attachment"):FindFirstChild("ParticleEmitter2")
                      local LuckyInfo = {
                       ItemName = ("Lucky Arrow"),
                       Max = 10
@@ -112,7 +114,9 @@ local function CheckItem(Model)
                      if CheckAmount(LuckyInfo.ItemName, LuckyInfo.Max) then
                         return true
                      end
-
+                     
+                        end
+                     end
                   end
                end
      
