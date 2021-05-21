@@ -50,6 +50,8 @@ local PlayerService = game:GetService("Players")
 local STANDS = HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Stands.JSON")) or HttpService:JSONDecode(syn.request({Url = ("https://raw.githubusercontent.com/ScreamerUWU/ScreamerHUB/main/Games/YBA/REQ/Stands.JSON"), Method = ("GET"), Headers = {}}).Body)
 local StandSession = {}
 
+_G.ItemCounter = { }
+
 --[[ GLOBAL ]]--
 
 _G.DropAmount = ("ALL")
@@ -268,7 +270,7 @@ end
 
 --[[ AUTO DROP ]]--
 
-AutoDropWindow:Toggle("ENABLED", true, function(Bool)
+AutoDropWindow:Toggle("ENABLED", _G.DropEnabled, function(Bool)
     _G.DropEnabled = Bool
 end)
 
@@ -287,7 +289,7 @@ local Dropping = AutoDropWindow:Label("Currently Dropping: N/A")
 Dropping.TextColor3 = Color3.fromRGB(255, 0, 0)
 
 AutoDropWindow:Line(Color3.fromRGB(0, 255, 0))
-AutoDropWindow:Label("ITEMS:").TextColor3 = Color3.fromRGB(0, 255, 0)
+AutoDropWindow:Label("ITEMS").TextColor3 = Color3.fromRGB(0, 255, 0)
 AutoDropWindow:Line(Color3.fromRGB(0, 255, 0))
 
 for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
@@ -301,7 +303,7 @@ end
 
 --[[ AUTO SELL ]]--
 
-AutoSellWindow:Toggle("ENABLED", true, function(Bool)
+AutoSellWindow:Toggle("ENABLED", _G.SellEnabled, function(Bool)
     _G.SellEnabled = Bool
 end)
 
@@ -320,7 +322,7 @@ local Selling = AutoSellWindow:Label("Currently Selling: N/A")
 Selling.TextColor3 = Color3.fromRGB(255, 0, 0)
 
 AutoSellWindow:Line(Color3.fromRGB(0, 255, 0))
-AutoSellWindow:Label("ITEMS:").TextColor3 = Color3.fromRGB(0, 255, 0)
+AutoSellWindow:Label("ITEMS").TextColor3 = Color3.fromRGB(0, 255, 0)
 AutoSellWindow:Line(Color3.fromRGB(0, 255, 0))
 
 for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
@@ -347,7 +349,7 @@ StandFarmWindow:Toggle("KEEP SPECIFIC SHINIES", _G.StandFarmS, function(Bool)
 end)
 
 StandFarmWindow:Line(Color3.fromRGB(0, 150, 0))
-StandFarmWindow:Label("STANDS:").TextColor3 = Color3.fromRGB(0, 255, 0)
+StandFarmWindow:Label("STANDS").TextColor3 = Color3.fromRGB(0, 255, 0)
 StandFarmWindow:Line(Color3.fromRGB(0, 150, 0))
 
 for i = 1,#STANDS do
@@ -358,7 +360,29 @@ end
 
 --[[ ITEM COUNTER ]]--
 
-ItemCounterWindow:Label("Coming Soon...")
+ItemCounterWindow:Toggle("AUTO COUNT", _G.AutoCount, function(Bool)
+    _G.AutoCount = Bool
+end)
+
+ItemCounterWindow:Button("COUNT", function()
+    return ("")
+end)
+
+ItemCounterWindow:Line(Color3.fromRGB(0, 255, 0))
+ItemCounterWindow:Label("ITEMS"))
+ItemCounterWindow:Line(Color3.fromRGB(0, 255, 0))
+
+for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
+   local Item = (ItemCounterWindow:Label(Value .. ": "))
+   
+   Item.TextColor3 = (Color3.fromRGB(0, 255, 0))
+
+   _G.ItemCounter[#_G.ItemCounter + 1] = {
+    ItemName = (Value),
+    Amount = nil,
+    TextObject = Item
+   }
+end
 
 --[[ SBR ]]--
 
@@ -385,11 +409,11 @@ SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 SBRWindow:Label("CLIENT FEATURES").TextColor3 = Color3.fromRGB(0, 255, 0)
 SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 
-SBRWindow:Toggle("ANTI-POISON", _G.ANTIPOISON, function(Bool)
+SBRWindow:Toggle("ANTI POISON", _G.ANTIPOISON, function(Bool)
     _G.ANTIPOISON = Bool
 end)
 
-SBRWindow:Toggle("ANTI-WEATHER", _G.ANTIWEATHER, function(Bool)
+SBRWindow:Toggle("ANTI WEATHER", _G.ANTIWEATHER, function(Bool)
     _G.ANTIWEATHER = Bool
     
     if Bool then
@@ -401,7 +425,7 @@ SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 SBRWindow:Label("PVP FEATURES").TextColor3 = Color3.fromRGB(0, 255, 0)
 SBRWindow:Line(Color3.fromRGB(0, 150, 0))
 
-SBRWindow:Button("GOD MODE", function()
+SBRWindow:Button("GODMODE", function()
     GET(Directory)
     game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Screamer HUB", Text = "GODMODE ENABLED! Reset to disable.", Duration = 7, })
 end)
@@ -409,10 +433,10 @@ end)
 --[[ MISC ]]--
 
 MiscWindow:Line(Color3.fromRGB(0,255,0))
-MiscWindow:Label("AUTOFARM SETTINGS:").TextColor3 = Color3.fromRGB(0,255,0)
+MiscWindow:Label("AUTOFARM SETTINGS").TextColor3 = Color3.fromRGB(0,255,0)
 MiscWindow:Line(Color3.fromRGB(0,255,0))
 
-MiscWindow:Toggle("STAND LOGGING", false, function(Bool)
+MiscWindow:Toggle("STAND LOGGING", _G.StandLogging, function(Bool)
     _G.StandLogging = Bool
 end)
 
@@ -422,26 +446,22 @@ MiscWindow:Button("SAVE LOG", function()
 end)
 
 MiscWindow:Line(Color3.fromRGB(0,255,0))
-MiscWindow:Label("AUTOMATIC SETTINGS:").TextColor3 = Color3.fromRGB(0,255,0)
+MiscWindow:Label("AUTOMATIC SETTINGS").TextColor3 = Color3.fromRGB(0,255,0)
 MiscWindow:Line(Color3.fromRGB(0,255,0))
 
-MiscWindow:Toggle("AUTO-PICKUP", false, function(Bool)
+MiscWindow:Toggle("AUTO PICKUP", _G.AutoPickupEnabled, function(Bool)
     _G.AutoPickupEnabled = Bool
 end)
 
-MiscWindow:Toggle("AUTO-COUNT", false, function(Bool)
-    _G.AutoCount = Bool
-end)
-
-MiscWindow:Toggle("AUTO-ARCADE", false, function(Bool)
+MiscWindow:Toggle("AUTO ARCADE", _G.AutoArcade, function(Bool)
     _G.AutoArcade = Bool
 end)
 
-MiscWindow:Toggle("AUTO-KICK", true, function(Bool)
+MiscWindow:Toggle("AUTO-KICK", _G.AutoKick, function(Bool)
     _G.AutoKick = Bool
 end)
 
-MiscWindow:Toggle("ANTI-AFK", false, function(Bool)
+MiscWindow:Toggle("ANTI-AFK", _G.AFK, function(Bool)
     _G.AFK = Bool
 end)
 
