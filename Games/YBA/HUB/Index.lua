@@ -368,9 +368,9 @@ ItemCounterWindow:Button("COUNT", function()
     return ("")
 end)
 
-ItemCounterWindow:Line(Color3.fromRGB(0, 255, 0))
-ItemCounterWindow:Label("ITEMS"))
-ItemCounterWindow:Line(Color3.fromRGB(0, 255, 0))
+ItemCounterWindow:Line(Color3.fromRGB(0, 0, 255))
+ItemCounterWindow:Label("ITEMS").TextColor3 = Color3.fromRGB(0, 0, 255)
+ItemCounterWindow:Line(Color3.fromRGB(0, 0, 255))
 
 for Index, Value in pairs(Decode(GETBODY(ITEMS))) do
    local Item = (ItemCounterWindow:Label(Value .. ": "))
