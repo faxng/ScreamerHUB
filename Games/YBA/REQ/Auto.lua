@@ -7,8 +7,26 @@ local function RollArcade()
         unpack(ArcadeInfo))
 end
 
+local ItemCount(ITEM)
+
+   local Found = 0
+
+   for I, V in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+      if V.Name == (ITEM) then
+         Found = (Found + 1)
+      end
+   end
+
+end
+
 local function AutoCount()
-   return {}
+   for i = 1,#_G.ItemCounter do
+   
+      local Count = ItemCount(_G.ItemCounter[i].ItemName)
+    
+      _G.ItemCounter[i].Amount = (Count)
+      _G.ItemCounter[i].TextObject.Text = (_G.ItemCounter[i].ItemName .. ": " .. _G.ItemCounter[i].Amount)
+   end
 end
 
 game:GetService("RunService").RenderStepped:Connect(function(...)
@@ -17,6 +35,6 @@ game:GetService("RunService").RenderStepped:Connect(function(...)
     end
     
     if _G.AutoCount then
-       _G.Updated = AutoCount()
+       AutoCount()
     end
 end) 
